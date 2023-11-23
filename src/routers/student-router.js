@@ -24,6 +24,7 @@ router.post("/login", async (req, res) => {
   const student = req.body;
   try {
     const result = await StudentLogin(student);
+    console.log(result);
     if (result.message) {
       res.send(result);
     } else {

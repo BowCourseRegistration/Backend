@@ -233,7 +233,7 @@ export const StudentLogin = async function (student) {
         result.recordset[0].password
       );
       if (match) {
-        return "Login success";
+        return { message: true, role: "student" };
       } else {
         throw new Error("Invalid credentials");
       }
