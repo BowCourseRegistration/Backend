@@ -5,10 +5,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const config = {
   server: 'localhost',
-  port: 57000,
+  port: 5070,
   user: 'user',
   password: 'user',
-  database: 'DBconnectionTest',
+  database: 'BowCourseRegistration',
   options: {
     trustServerCertificate: true,
   },

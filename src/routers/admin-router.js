@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 // Admin login route
-router.post('/login', async (req, res) => {
+router.post('/admin/login', async (req, res) => {
     const admin = req.body;
     try {
         await AdminLogin(admin);
@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Add course route
-router.post('/addcourse', async (req, res) => {
+router.post('/admin/addcourse', async (req, res) => {
     const newCourse = req.body;
     try {
         await AddCourse(newCourse);
@@ -34,7 +34,7 @@ router.post('/addcourse', async (req, res) => {
 });
 
 // Search course route
-router.get('/searchcourses/:keyword', async (req, res) => {
+router.get('/admin/searchcourses/:keyword', async (req, res) => {
     try {
         const keyword = req.params.keyword;
         const searchResults = await SearchCourse(keyword);
@@ -46,7 +46,7 @@ router.get('/searchcourses/:keyword', async (req, res) => {
 });
 
 // Delete course route
-router.delete('/deletecourse/:courseCode', async (req, res) => {
+router.delete('/admin/deletecourse/:courseCode', async (req, res) => {
     const courseCode = req.params.courseCode;
     try {
         await DeleteCourse(courseCode);
@@ -58,7 +58,7 @@ router.delete('/deletecourse/:courseCode', async (req, res) => {
 });
 
 // Search students by program route
-router.get('/searchstudents/:program', async (req, res) => {
+router.get('/admin/searchstudents/:program', async (req, res) => {
     try {
         const program = req.params.program;
         const searchResults = await SearchStudentsByProgram(program);
@@ -70,7 +70,7 @@ router.get('/searchstudents/:program', async (req, res) => {
 });
 
 // Update course by courseCode route
-router.put('/updatecourse/:courseCode', async (req, res) => {
+router.put('/admin/updatecourse/:courseCode', async (req, res) => {
     const courseCode = req.params.courseCode;
     const updatedData = req.body;
     try {

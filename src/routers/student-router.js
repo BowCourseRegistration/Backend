@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 // Student signup route
-router.post('/signup', async (req, res) => {
+router.post('/student/signup', async (req, res) => {
     const newStudent = req.body;
     try {
         const result = await StudentSignup(newStudent);
@@ -20,7 +20,7 @@ router.post('/signup', async (req, res) => {
 });
 
 // Student login route
-router.post('/login', async (req, res) => {
+router.post('/student/login', async (req, res) => {
     const student = req.body;
     try {
         await StudentLogin(student);
@@ -32,7 +32,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Search available courses for students route
-router.get('/searchcourses/:keyword', async (req, res) => {
+router.get('/student/searchcourses/:keyword', async (req, res) => {
     try {
         const keyword = req.params.keyword;
         const searchResults = await SearchAvailableCourses(keyword);
