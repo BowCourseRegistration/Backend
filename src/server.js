@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import { json, urlencoded } from 'body-parser';
+import bodyParser from 'body-parser';
 import adminRouter from './routers/admin-router.js';
 import studentRouter from './routers/student-router.js';
 
+const { json, urlencoded } = bodyParser;
 const app = express();
 const port = 5070;
 

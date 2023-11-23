@@ -166,7 +166,7 @@ export const UpdateCourseBycourseCode = async function (courseCode, updateData) 
 //
 
 // Student Signup function
-export const Signup = await bcrypt.hash(newStudent.password, 10);
+export const Signup = async function (newStudent) {
 try {
   await sql.connect(config);
 
@@ -191,7 +191,7 @@ try {
     request.input('phone', sql.NVarChar, newStudent.phone);
     request.input('dob', sql.Date, newStudent.dob);
     request.input('username', sql.NVarChar, newStudent.username);
-    request.input('programID', sql.Int, newStudent.programID);
+    request.input('programID', sql.INT, newStudent.programID);
 
     await request.query(query);
 
