@@ -13,8 +13,12 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   const admin = req.body;
   try {
-    await AdminLogin(admin);
-    res.send("Admin Login Success");
+    const result = await AdminLogin(admin);
+    if (result.message) {
+      res.send(result);
+    } else {
+      throw err;
+    }
   } catch (error) {
     console.error("Error during admin login:", error);
     res.status(500).send("Admin Login Failed");

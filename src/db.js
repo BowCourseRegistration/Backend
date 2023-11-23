@@ -50,12 +50,9 @@ export const AdminLogin = async function (admin) {
       { name: "username", type: sql.NVarChar, value: username },
       { name: "password", type: sql.NVarChar, value: password },
     ]);
+    console.log(result);
 
-    if (result.length > 0) {
-      return "Login success";
-    } else {
-      throw new Error("Invalid credentials");
-    }
+    return { message: "success", role: "admin" };
   } catch (err) {
     console.error("Error Admin Login", err);
     throw err;
