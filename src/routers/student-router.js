@@ -23,8 +23,12 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const student = req.body;
   try {
-    await StudentLogin(student);
-    res.send("Student Login Success");
+    const result = await StudentLogin(student);
+    if (result.message) {
+      res.send(result);
+    } else {
+      throw err;
+    }
   } catch (error) {
     console.error("Error during student login:", error);
     res.status(500).send("Student Login Failed");
