@@ -271,7 +271,8 @@ export const SearchAvailableCourses = async function (keyword) {
 };
 
 // Student send contact form to admin function
-export const SendContactForm = async function ( contactForm, updateData ) {
+export const SendContactForm = async function (contactForm, updateData) {
+  console.log(contactForm, 0, updateData);
   const query = `
     INSERT INTO ContactForm (formID, studentID, message)
     VALUES (@formID, @studentID, @message)
@@ -279,9 +280,9 @@ export const SendContactForm = async function ( contactForm, updateData ) {
 
   try {
     await executeQuery(query, [
-      { name: "formID", type: sql.INT, value: updateData.formID },
-      { name: "studentID", type: sql.INT, value: updateData.studentID },
-      { name: "message", type: sql.NVarChar, value: updateData.message },
+      { name: "formID", type: sql.INT, value: contactForm.formID },
+      { name: "studentID", type: sql.INT, value: contactForm.studentID },
+      { name: "message", type: sql.NVarChar, value: contactForm.message },
     ]);
   } catch (err) {
     throw err;
@@ -291,17 +292,13 @@ export const SendContactForm = async function ( contactForm, updateData ) {
 };
 
 // Admin receive contact form from student function
-export const ReceiveContactForm = async function ( contactForm ) {
+export const ReceiveContactForm = async function () {
   const query = `
     SELECT * FROM ContactForm
     `;
 
   try {
-    return await executeQuery(query, [
-      { name: "formID", type: sql.INT, value: contactForm.formID },
-      { name: "studentID", type: sql.INT, value: contactForm.studentID },
-      { name: "message", type: sql.NVarChar, value: contactForm.message },
-    ]);
+    return await executeQuery(query);
   } catch (err) {
     throw err;
   } finally {

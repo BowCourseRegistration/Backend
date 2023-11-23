@@ -3,7 +3,7 @@ import {
   Signup as StudentSignup,
   StudentLogin,
   SearchAvailableCourses,
-    SendContactForm,
+  SendContactForm,
 } from "../db.js";
 
 const router = express.Router();
@@ -47,6 +47,7 @@ router.get("/searchcourses/:keyword", async (req, res) => {
 // Student send contact form to admin function
 router.post("/contact", async (req, res) => {
   const newContact = req.body;
+  console.log(newContact);
   try {
     await SendContactForm(newContact);
     res.send("Contact form sent");
