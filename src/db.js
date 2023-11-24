@@ -266,3 +266,39 @@ export const SearchAvailableCourses = async function (keyword) {
     await sql.close();
   }
 };
+
+// Student send contact form to admin function
+export const SendContactForm = async function (contactForm, updateData) {
+  console.log(contactForm, 0, updateData);
+  const query = `
+    INSERT INTO ContactForm (formID, studentID, message)
+    VALUES (@formID, @studentID, @message)
+    `;
+
+  try {
+    await executeQuery(query, [
+      { name: "formID", type: sql.INT, value: contactForm.formID },
+      { name: "studentID", type: sql.INT, value: contactForm.studentID },
+      { name: "message", type: sql.NVarChar, value: contactForm.message },
+    ]);
+  } catch (err) {
+    throw err;
+  } finally {
+    await sql.close();
+  }
+};
+
+// Admin receive contact form from student function
+export const ReceiveContactForm = async function () {
+  const query = `
+    SELECT * FROM ContactForm
+    `;
+
+  try {
+    return await executeQuery(query);
+  } catch (err) {
+    throw err;
+  } finally {
+    await sql.close();
+  }
+};
