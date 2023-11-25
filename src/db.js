@@ -110,7 +110,7 @@ export const DeleteCourse = async function (courseCode) {
 
   try {
     await executeQuery(query, [
-      { name: "courseCode", type: sql.NAV, value: courseCode },
+      { name: "courseCode", type: sql.NVarChar, value: courseCode },
     ]);
     console.log("Course deleted successfully");
   } catch (err) {
