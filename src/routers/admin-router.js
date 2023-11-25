@@ -6,6 +6,7 @@ import {
   DeleteCourse,
   SearchStudentsByProgram,
   UpdateCourseBycourseCode,
+  ReceiveContactForm,
 } from "../db.js";
 
 const router = express.Router();
@@ -13,8 +14,12 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   const admin = req.body;
   try {
-    await AdminLogin(admin);
-    res.send("Admin Login Success");
+    const result = await AdminLogin(admin);
+    if (result.message == "success") {
+      res.send(result);
+    } else {
+      throw err;
+    }
   } catch (error) {
     console.error("Error during admin login:", error);
     res.status(500).send("Admin Login Failed");
@@ -79,6 +84,17 @@ router.put("/updatecourse/:courseCode", async (req, res) => {
   } catch (error) {
     console.error("Error during course update:", error);
     res.status(500).send("Failed to update course");
+  }
+});
+
+// Admin receive contact form from student function
+router.get("/contact", async (req, res) => {
+  try {
+    const contactForm = await ReceiveContactForm();
+    res.json({ results: contactForm });
+  } catch (error) {
+    console.error("Error during contact form submission:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

@@ -3,6 +3,7 @@ import {
   Signup as StudentSignup,
   StudentLogin,
   SearchAvailableCourses,
+  SendContactForm,
 } from "../db.js";
 
 const router = express.Router();
@@ -23,8 +24,13 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const student = req.body;
   try {
-    await StudentLogin(student);
-    res.send("Student Login Success");
+    const result = await StudentLogin(student);
+    console.log(result);
+    if (result.message) {
+      res.send(result);
+    } else {
+      throw new Error();
+    }
   } catch (error) {
     console.error("Error during student login:", error);
     res.status(500).send("Student Login Failed");
@@ -32,6 +38,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Search available courses for students route
+
 router.get("/searchcourses/:keyword", async (req, res) => {
   try {
     const keyword = req.params.keyword;
@@ -40,6 +47,19 @@ router.get("/searchcourses/:keyword", async (req, res) => {
   } catch (error) {
     console.error("Error during course search:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Student send contact form to admin function
+router.post("/contact", async (req, res) => {
+  const newContact = req.body;
+  console.log(newContact);
+  try {
+    await SendContactForm(newContact);
+    res.send("Contact form sent");
+  } catch (error) {
+    console.error("Error during contact form submission:", error);
+    res.status(500).send("Contact form submission failed");
   }
 });
 

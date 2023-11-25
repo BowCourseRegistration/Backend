@@ -50,12 +50,9 @@ export const AdminLogin = async function (admin) {
       { name: "username", type: sql.NVarChar, value: username },
       { name: "password", type: sql.NVarChar, value: password },
     ]);
+    console.log(result);
 
-    if (result.length > 0) {
-      return "Login success";
-    } else {
-      throw new Error("Invalid credentials");
-    }
+    return { message: "success", role: "admin" };
   } catch (err) {
     console.error("Error Admin Login", err);
     throw err;
@@ -113,7 +110,7 @@ export const DeleteCourse = async function (courseCode) {
 
   try {
     await executeQuery(query, [
-      { name: "courseCode", type: sql.NAV, value: courseCode },
+      { name: "courseCode", type: sql.NVarChar, value: courseCode },
     ]);
     console.log("Course deleted successfully");
   } catch (err) {
@@ -236,7 +233,7 @@ export const StudentLogin = async function (student) {
         result.recordset[0].password
       );
       if (match) {
-        return "Login success";
+        return { message: true, role: "student" };
       } else {
         throw new Error("Invalid credentials");
       }
@@ -269,51 +266,38 @@ export const SearchAvailableCourses = async function (keyword) {
     await sql.close();
   }
 };
-
-// Saves contact info
-
-export const saveContactInfo = async function (contactInfo) {
-    try {
-        await sql.connect(config);
-
-        const query = `
-      INSERT INTO ContactForms (firstname, lastname, phone, email, comments)
-      VALUES (@firstname, @lastname, @phone, @email, @comments)
+// Student send contact form to admin function
+export const SendContactForm = async function (contactForm, updateData) {
+  console.log(contactForm, 0, updateData);
+  const query = `
+    INSERT INTO ContactForm (formID, studentID, message)
+    VALUES (@formID, @studentID, @message)
     `;
 
-        const request = new sql.Request();
-        request.input("firstname", sql.NVarChar, contactInfo.firstname);
-        request.input("lastname", sql.NVarChar, contactInfo.lastname);
-        request.input("phone", sql.NVarChar, contactInfo.phone);
-        request.input("email", sql.NVarChar, contactInfo.email);
-        request.input("comments", sql.NVarChar, contactInfo.comments);
-
-        await request.query(query);
-
-        console.log("Contact form data saved successfully");
-    } catch (err) {
-        console.error("Error saving contact form data:", err);
-        throw err;
-    } finally {
-        await sql.close();
-    }
+  try {
+    await executeQuery(query, [
+      { name: "formID", type: sql.INT, value: contactForm.formID },
+      { name: "studentID", type: sql.INT, value: contactForm.studentID },
+      { name: "message", type: sql.NVarChar, value: contactForm.message },
+    ]);
+  } catch (err) {
+    throw err;
+  } finally {
+    await sql.close();
+  }
 };
 
-export const getContactForms = async function () {
-    try {
-        await sql.connect(config);
-
-        const query = `
-      SELECT * FROM ContactForms
+// Admin receive contact form from student function
+export const ReceiveContactForm = async function () {
+  const query = `
+    SELECT * FROM ContactForm
     `;
 
-        const result = await sql.query(query);
-
-        return result.recordset;
-    } catch (err) {
-        console.error("Error retrieving contact forms:", err);
-        throw err;
-    } finally {
-        await sql.close();
-    }
+  try {
+    return await executeQuery(query);
+  } catch (err) {
+    throw err;
+  } finally {
+    await sql.close();
+  }
 };
