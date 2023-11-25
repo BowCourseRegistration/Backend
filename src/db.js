@@ -269,3 +269,51 @@ export const SearchAvailableCourses = async function (keyword) {
     await sql.close();
   }
 };
+
+// Saves contact info
+
+export const saveContactInfo = async function (contactInfo) {
+    try {
+        await sql.connect(config);
+
+        const query = `
+      INSERT INTO ContactForms (firstname, lastname, phone, email, comments)
+      VALUES (@firstname, @lastname, @phone, @email, @comments)
+    `;
+
+        const request = new sql.Request();
+        request.input("firstname", sql.NVarChar, contactInfo.firstname);
+        request.input("lastname", sql.NVarChar, contactInfo.lastname);
+        request.input("phone", sql.NVarChar, contactInfo.phone);
+        request.input("email", sql.NVarChar, contactInfo.email);
+        request.input("comments", sql.NVarChar, contactInfo.comments);
+
+        await request.query(query);
+
+        console.log("Contact form data saved successfully");
+    } catch (err) {
+        console.error("Error saving contact form data:", err);
+        throw err;
+    } finally {
+        await sql.close();
+    }
+};
+
+export const getContactForms = async function () {
+    try {
+        await sql.connect(config);
+
+        const query = `
+      SELECT * FROM ContactForms
+    `;
+
+        const result = await sql.query(query);
+
+        return result.recordset;
+    } catch (err) {
+        console.error("Error retrieving contact forms:", err);
+        throw err;
+    } finally {
+        await sql.close();
+    }
+};
