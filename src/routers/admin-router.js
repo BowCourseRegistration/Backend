@@ -6,6 +6,7 @@ import {
   DeleteCourse,
   SearchStudentsByProgram,
   UpdateCourseBycourseCode,
+  ReceiveContactForm,
 } from "../db.js";
 
 const router = express.Router();
@@ -83,6 +84,17 @@ router.put("/updatecourse/:courseCode", async (req, res) => {
   } catch (error) {
     console.error("Error during course update:", error);
     res.status(500).send("Failed to update course");
+  }
+});
+
+// Admin receive contact form from student function
+router.get("/contact", async (req, res) => {
+  try {
+    const contactForm = await ReceiveContactForm();
+    res.json({ results: contactForm });
+  } catch (error) {
+    console.error("Error during contact form submission:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
