@@ -12,14 +12,6 @@ app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-app.get("/admin", (req, res) => {
-  res.end("This is for admin");
-});
-
-app.get("/student", (req, res) => {
-  res.end("This is for student");
-});
-
 // API routes
 app.use("/admin", adminRouter);
 app.use("/student", studentRouter);
