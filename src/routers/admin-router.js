@@ -14,7 +14,7 @@ router.post("/login", async (req, res) => {
   const admin = req.body;
   try {
     const result = await AdminLogin(admin);
-    if (result.message) {
+    if (result.message == "success") {
       res.send(result);
     } else {
       throw err;
