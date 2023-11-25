@@ -54,10 +54,10 @@ npm start
 ## File Guide
 
 ```bash
-server.js: Contain code to setup the server and connect with Express
-db.js: Contain functions for Student and Admin
-student-router.js: Contain API for student, importing functions from db.js
-admin-router.js: Contain API for admin, importing functions from db.js
+server.js: Contain codes to setup the server and connect with Express
+db.js: Contain Student and Admin functions
+student-router.js: Contain Student API, importing functions from db.js
+admin-router.js: Contain Admin API, importing functions from db.js
 ```
 
 
