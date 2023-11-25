@@ -36,3 +36,18 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on ${port}`);
 });
+
+
+//view contact forms '/admin/contactform'
+app.get("/admin/contactform", async function (req, res) {
+    try {
+        // Using the getContactForms function from db.js to retrieve contact forms
+        const contactForms = await getContactForms();
+
+        res.json({ contactForms });
+    } catch (error) {
+        console.error("Error retrieving contact forms:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
