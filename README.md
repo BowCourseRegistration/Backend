@@ -6,6 +6,30 @@ This is the backend code for the Bow Online Course Registration System. This sys
 
 ![Bow Course Registration System ERD](public/BowCourseRegistration-ERD-Backend.png)
 
+## Project Structure
+```bash
+/Backend
+    /public
+        BowCourseRegistration-ERD-Backend.png 
+    /sql
+        BowCourseRegistrationSQL.sql
+    /src
+            /routers
+                admin-router.js
+                student-router.js
+        db.js
+        server.js
+    package.json
+    README.md
+```
+
+## Database Setup
+
+To set up the database, follow this steps:
+
+Run the BowCourseRegistration.sql file in the sql folder
+Create table and insert data into each table
+
 ## Installation
 
 1. Clone the repository
@@ -26,11 +50,7 @@ npm install
 ```bash
 npm start
 ```
-## Database Setup
 
-To set up the database, follow this steps:
-
-Run the BowCourseRegistration.sql file in the sql folder
 
 
 
