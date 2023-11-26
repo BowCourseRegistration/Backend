@@ -29,7 +29,7 @@ router.post("/login", async (req, res) => {
     if (result.message) {
       res.send(result);
     } else {
-      throw err;
+      throw new Error();
     }
   } catch (error) {
     console.error("Error during student login:", error);
@@ -38,6 +38,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Search available courses for students route
+
 router.get("/searchcourses/:keyword", async (req, res) => {
   try {
     const keyword = req.params.keyword;
