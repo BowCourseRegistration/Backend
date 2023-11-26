@@ -28,7 +28,40 @@ router.post("/login", async (req, res) => {
 
 // Add course route
 router.post("/addcourse", async (req, res) => {
-  const newCourse = req.body;
+  const course = req.body;
+  console.log("course : ", course);
+  const newCourse = {
+    courseCode: course.courseCode,
+    courseName: course.courseName,
+    startingDate: "",
+    endingDate: "",
+    fees: course.fees,
+    description: course.description,
+    termID: 0,
+  };
+  switch (course.term) {
+    case "term1":
+      (newCourse.termID = 1),
+        (newCourse.startingDate = "2023-09-01"),
+        (newCourse.endingDate = "2023-12-20");
+      break;
+    case "term2":
+      (newCourse.termID = 2),
+        (newCourse.startingDate = "2024-01-05"),
+        (newCourse.endingDate = "2024-05-02");
+      break;
+    case "term3":
+      (newCourse.termID = 3),
+        (newCourse.startingDate = "2024-09-01"),
+        (newCourse.endingDate = "2024-12-20");
+      break;
+    case "term4":
+      (newCourse.termID = 4),
+        (newCourse.startingDate = "2025-01-05"),
+        (newCourse.endingDate = "2025-05-02");
+      break;
+  }
+
   try {
     await AddCourse(newCourse);
     res.send("Added a course");
