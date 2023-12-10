@@ -30,12 +30,14 @@ CREATE TABLE Term (
 
 CREATE TABLE Course (
                         courseCode NVARCHAR(50) PRIMARY KEY,
+                        programID INT,
                         courseName NVARCHAR(100),
                         startingDate DATE,
                         endingDate DATE,
                         fees DECIMAL(10,2),
                         description NVARCHAR(MAX),
                         termID INT,
+                        FOREIGN KEY (programID) REFERENCES Program(programID),
                         FOREIGN KEY (termID) REFERENCES Term(termID)
 );
 
@@ -102,64 +104,64 @@ VALUES
     (3, 'Diploma');
 
 -- INSERTING DATA FOR CERTIFICATE TERM1 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('CertPr111', 'Certificate Project Management1', '2023-09-01', '2023-12-20', 700.00, 'Course Description', 1),
-    ('CertC++111', 'Certificate C++ Programming Fundamentals', '2023-09-01', '2023-12-20', 720.00, 'Course Description', 1),
-    ('CertCompM1111', 'Certificate Computer Maintenance', '2023-09-01', '2023-12-20', 780.00, 'Course Description', 1),
-    ('CertIS1111', 'Certificate Information Security1', '2023-09-01', '2023-12-20', 790.00, 'Course Description', 1);
+    (1, 'CertPr111', 'Certificate Project Management1', '2023-09-01', '2023-12-20', 700.00, 'Course Description', 1),
+    (1, 'CertC++111', 'Certificate C++ Programming Fundamentals', '2023-09-01', '2023-12-20', 720.00, 'Course Description', 1),
+    (1, 'CertCompM1111', 'Certificate Computer Maintenance', '2023-09-01', '2023-12-20', 780.00, 'Course Description', 1),
+    (1, 'CertIS1111', 'Certificate Information Security1', '2023-09-01', '2023-12-20', 790.00, 'Course Description', 1);
 
 -- INSERTING DATA FOR CERTIFICATE TERM2 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('CertNet222', 'Certificate Networking', '2024-01-05', '2024-05-02', 710.00, 'Course Description', 2),
-    ('CertWeb222', 'Certificate Web Technology', '2024-01-05', '2024-05-02', 795.00, 'Course Description', 2),
-    ('CertPro222', 'Certificate Project Management', '2024-01-05', '2024-05-02', 730.00, 'Course Description', 2);
+    (1, 'CertNet222', 'Certificate Networking', '2024-01-05', '2024-05-02', 710.00, 'Course Description', 2),
+    (1, 'CertWeb222', 'Certificate Web Technology', '2024-01-05', '2024-05-02', 795.00, 'Course Description', 2),
+    (1, 'CertPro222', 'Certificate Project Management', '2024-01-05', '2024-05-02', 730.00, 'Course Description', 2);
 
 -- INSERTING DATA FOR POST-DIPLOMA TERM3 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('PostDipPr333', 'Post-Diploma Advanced Project Management1', '2024-09-01', '2024-12-20', 750.00, 'Course Description', 3),
-    ('PostDipC++333', 'Post-Diploma Advanced C++ Programming Fundamentals', '2024-09-01', '2024-12-20', 740.00, 'Course Description', 3),
-    ('PostDipCompM333', 'Post-Diploma Advanced Computer Maintenance', '2024-09-01', '2024-12-20', 720.00, 'Course Description', 3),
-    ('PostDipIS333', 'Post-Diploma Advanced Information Security1', '2024-09-01', '2024-12-20', 710.00, 'Course Description', 3);
+    (2, 'PostDipPr333', 'Post-Diploma Advanced Project Management1', '2024-09-01', '2024-12-20', 750.00, 'Course Description', 3),
+    (2, 'PostDipC++333', 'Post-Diploma Advanced C++ Programming Fundamentals', '2024-09-01', '2024-12-20', 740.00, 'Course Description', 3),
+    (2, 'PostDipCompM333', 'Post-Diploma Advanced Computer Maintenance', '2024-09-01', '2024-12-20', 720.00, 'Course Description', 3),
+    (2, 'PostDipIS333', 'Post-Diploma Advanced Information Security1', '2024-09-01', '2024-12-20', 710.00, 'Course Description', 3);
 
 -- INSERTING DATA FOR POST-DIPLOMA TERM4 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('PostDipNet444', 'Post-Diploma Advanced Networking', '2025-01-05', '2025-05-02', 760.00, 'Course Description', 4),
-    ('PostDipWeb444', 'Post-Diploma Advanced Web Technology', '2025-01-05', '2025-05-02', 740.00, 'Course Description', 4),
-    ('PostDipPro444', 'Post-Diploma Advanced Project Management', '2025-01-05', '2025-05-02', 770.00, 'Course Description', 4);
+    (2, 'PostDipNet444', 'Post-Diploma Advanced Networking', '2025-01-05', '2025-05-02', 760.00, 'Course Description', 4),
+    (2, 'PostDipWeb444', 'Post-Diploma Advanced Web Technology', '2025-01-05', '2025-05-02', 740.00, 'Course Description', 4),
+    (2, 'PostDipPro444', 'Post-Diploma Advanced Project Management', '2025-01-05', '2025-05-02', 770.00, 'Course Description', 4);
 
 -- INSERTING DATA FOR DIPLOMA TERM1 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('Pr111', 'Project Management1', '2023-09-01', '2023-12-20', 700.00, 'Course Description', 1),
-    ('C++111', 'C++ Programming Fundamentals', '2023-09-01', '2023-12-20', 720.00, 'Course Description', 1),
-    ('CompM1111', 'Computer Maintenance', '2023-09-01', '2023-12-20', 780.00, 'Course Description', 1),
-    ('IS1111', 'Information Security1', '2023-09-01', '2023-12-20', 790.00, 'Course Description', 1);
+    (3, 'Pr111', 'Project Management1', '2023-09-01', '2023-12-20', 700.00, 'Course Description', 1),
+    (3, 'C++111', 'C++ Programming Fundamentals', '2023-09-01', '2023-12-20', 720.00, 'Course Description', 1),
+    (3, 'CompM1111', 'Computer Maintenance', '2023-09-01', '2023-12-20', 780.00, 'Course Description', 1),
+    (3, 'IS1111', 'Information Security1', '2023-09-01', '2023-12-20', 790.00, 'Course Description', 1);
 
 -- INSERTING DATA FOR DIPLOMA TERM2 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('Net222', 'Networking', '2024-01-05', '2024-05-02', 710.00, 'Course Description', 2),
-    ('Web222', 'Web Technology', '2024-01-05', '2024-05-02', 795.00, 'Course Description', 2),
-    ('Pro222', 'Project Management', '2024-01-05', '2024-05-02', 730.00, 'Course Description', 2);
+    (3, 'Net222', 'Networking', '2024-01-05', '2024-05-02', 710.00, 'Course Description', 2),
+    (3, 'Web222', 'Web Technology', '2024-01-05', '2024-05-02', 795.00, 'Course Description', 2),
+    (3, 'Pro222', 'Project Management', '2024-01-05', '2024-05-02', 730.00, 'Course Description', 2);
 
 -- INSERTING DATA FOR DIPLOMA TERM3 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('Pr333', 'Advanced Project Management1', '2024-09-01', '2024-12-20', 750.00, 'Course Description', 3),
-    ('C++333', 'Advanced C++ Programming Fundamentals', '2024-09-01', '2024-12-20', 740.00, 'Course Description', 3),
-    ('CompM333', 'Advanced Computer Maintenance', '2024-09-01', '2024-12-20', 720.00, 'Course Description', 3),
-    ('IS333', 'Advanced Information Security1', '2024-09-01', '2024-12-20', 710.00, 'Course Description', 3);
+    (3, 'Pr333', 'Advanced Project Management1', '2024-09-01', '2024-12-20', 750.00, 'Course Description', 3),
+    (3, 'C++333', 'Advanced C++ Programming Fundamentals', '2024-09-01', '2024-12-20', 740.00, 'Course Description', 3),
+    (3, 'CompM333', 'Advanced Computer Maintenance', '2024-09-01', '2024-12-20', 720.00, 'Course Description', 3),
+    (3, 'IS333', 'Advanced Information Security1', '2024-09-01', '2024-12-20', 710.00, 'Course Description', 3);
 
 -- INSERTING DATA FOR DIPLOMA TERM4 COURSES
-INSERT INTO Course (courseCode, courseName, startingDate, endingDate, fees, description, termID)
+INSERT INTO Course (programID, courseCode, courseName, startingDate, endingDate, fees, description, termID)
 VALUES
-    ('Net444', 'Advanced Networking', '2025-01-05', '2025-05-02', 760.00, 'Course Description', 4),
-    ('Web444', 'Advanced Web Technology', '2025-01-05', '2025-05-02', 740.00, 'Course Description', 4),
-    ('Pro444', 'Advanced Project Management', '2025-01-05', '2025-05-02', 770.00, 'Course Description', 4);
+    (3, 'Net444', 'Advanced Networking', '2025-01-05', '2025-05-02', 760.00, 'Course Description', 4),
+    (3, 'Web444', 'Advanced Web Technology', '2025-01-05', '2025-05-02', 740.00, 'Course Description', 4),
+    (3, 'Pro444', 'Advanced Project Management', '2025-01-05', '2025-05-02', 770.00, 'Course Description', 4);
 
 -- INSERTING SAMPLE DATA FOR STUDENTS
 INSERT INTO Student (studentID, email, password, programID, firstName, lastName, phone, dob, username)

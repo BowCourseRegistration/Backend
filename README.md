@@ -4,7 +4,7 @@ This is the backend code for the Bow Online Course Registration System. This sys
 
 ## ERD Diagram for the Database
 
-![Bow Course Registration System ERD](public/BowCourseRegistration-ERD-Backend.png)
+![Bow Course Registration System ERD](public/BowRegistrationCourse-ERD-Backend.png)
 
 ## Project Structure
 ```bash

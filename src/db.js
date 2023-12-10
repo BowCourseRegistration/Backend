@@ -1,6 +1,5 @@
 import sql from "mssql";
 import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
 
 export const config = {
   server: "localhost",
@@ -192,14 +191,14 @@ export const UpdateCourseBycourseCode = async function (
 
   try {
     await executeQuery(query, [
-      { name: "courseCode", type: sql.NVarChar, value: updateData.courseCode },
-      { name: "courseName", type: sql.NVarChar, value: updateData.courseName },
+      { name: "courseCode", type: sql.NVARCHAR, value: updateData.courseCode },
+      { name: "courseName", type: sql.NVARCHAR, value: updateData.courseName },
       { name: "startingDate", type: sql.Date, value: updateData.startingDate },
       { name: "endingDate", type: sql.Date, value: updateData.endingDate },
       { name: "fees", type: sql.Decimal, value: updateData.fees },
       {
         name: "description",
-        type: sql.NVarChar,
+        type: sql.NVARCHAR,
         value: updateData.description,
       },
       { name: "termID", type: sql.Int, value: updateData.termID },
@@ -209,7 +208,8 @@ export const UpdateCourseBycourseCode = async function (
   }
 };
 
-// STUDENT SECTION
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////STUDENT SECTION///////////////////////////////////////////////////////////
 //
 
 // Student Signup function
@@ -242,7 +242,7 @@ export const Signup = async function (newStudent) {
 
     await request.query(query);
 
-    return "Student signed up successfully";
+    return { message: "Student signed up successfully", studentID: studentID };
   } catch (err) {
     console.error("Error signing up student:", err);
     throw err;
@@ -280,9 +280,33 @@ export const SearchAvailableCourses = async function (keyword) {
 
   try {
     return await executeQuery(query, [
-      { name: "keyword", type: sql.NVarChar, value: keyword },
+      { name: "keyword", type: sql.NVARCHAR, value: keyword },
     ]);
   } catch (err) {
+    throw err;
+  } finally {
+    await sql.close();
+  }
+};
+
+// Student Select Course function//
+export const SelectCourse = async function (course) {
+  try {
+    await sql.connect(config);
+    const query = `
+    INSERT INTO Registration (studentID, courseCode, termID)
+    VALUES (@studentID, @courseCode, @termID)
+    `;
+
+    const request = new sql.Request();
+    request.input("studentID", sql.INT, course.studentID);
+    request.input("courseCode", sql.NVarChar, course.courseCode);
+
+    await request.query(query);
+
+    return { message: "Course selected successfully" };
+  } catch (err) {
+    console.error("Error selecting course:", err);
     throw err;
   } finally {
     await sql.close();
@@ -301,7 +325,7 @@ export const SendContactForm = async function (contactForm, updateData) {
     await executeQuery(query, [
       { name: "formID", type: sql.INT, value: contactForm.formID },
       { name: "studentID", type: sql.INT, value: contactForm.studentID },
-      { name: "message", type: sql.NVarChar, value: contactForm.message },
+      { name: "message", type: sql.NVARCHAR, value: contactForm.message },
     ]);
   } catch (err) {
     throw err;
