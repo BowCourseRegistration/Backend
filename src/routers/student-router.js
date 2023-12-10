@@ -50,6 +50,19 @@ router.get("/searchcourses/:keyword", async (req, res) => {
   }
 });
 
+// Student select course route
+router.post("/selectcourse", async (req, res) => {
+  const newCourse = req.body;
+  console.log(newCourse);
+  try {
+    await SelectCourse(newCourse);
+    res.send("Course selected");
+  } catch (error) {
+    console.error("Error during course selection:", error);
+    res.status(500).send("Course selection failed");
+  }
+});
+
 // Student send contact form to admin function
 router.post("/contact", async (req, res) => {
   const newContact = req.body;

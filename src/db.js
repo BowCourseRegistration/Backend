@@ -207,7 +207,7 @@ export const Signup = async function (newStudent) {
 
     await request.query(query);
 
-    return "Student signed up successfully";
+    return { message: "Student signed up successfully", studentID: studentID };
   } catch (err) {
     console.error("Error signing up student:", err);
     throw err;
@@ -264,6 +264,30 @@ export const SearchAvailableCourses = async function (keyword) {
       { name: "keyword", type: sql.NVARCHAR, value: keyword },
     ]);
   } catch (err) {
+    throw err;
+  } finally {
+    await sql.close();
+  }
+};
+
+// Student Select Course function//
+export const SelectCourse = async function (course) {
+  try {
+    await sql.connect(config);
+    const query = `
+    INSERT INTO Registration (studentID, courseCode, termID)
+    VALUES (@studentID, @courseCode, @termID)
+    `;
+
+    const request = new sql.Request();
+    request.input("studentID", sql.INT, course.studentID);
+    request.input("courseCode", sql.NVarChar, course.courseCode);
+
+    await request.query(query);
+
+    return { message: "Course selected successfully" };
+  } catch (err) {
+    console.error("Error selecting course:", err);
     throw err;
   } finally {
     await sql.close();
