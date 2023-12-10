@@ -314,18 +314,24 @@ export const SelectCourse = async function (course) {
 };
 
 // Student send contact form to admin function
-export const SendContactForm = async function (contactForm, updateData) {
-  console.log(contactForm, 0, updateData);
-  const query = `
-    INSERT INTO ContactForm (formID, studentID, message)
-    VALUES (@formID, @studentID, @message)
+export const SendContactForm = async function (contact) {
+  try {
+    const { firstName, lastName, phoneNumber, email, comments } = contact;
+    const query = `
+    INSERT INTO Contact (firstName, lastName, phoneNumber, email, comments)
+    VALUES (@firstName, @lastName, @phoneNumber, @email, @comments)
     `;
 
-  try {
-    await executeQuery(query, [
-      { name: "formID", type: sql.INT, value: contactForm.formID },
-      { name: "studentID", type: sql.INT, value: contactForm.studentID },
-      { name: "message", type: sql.NVARCHAR, value: contactForm.message },
+    return await executeQuery(query, [
+      { name: "firstName", type: sql.NVARCHAR, value: contact.firstName },
+      { name: "lastName", type: sql.NVARCHAR, value: contact.lastName },
+      {
+        name: "phoneNumber",
+        type: sql.NVARCHAR,
+        value: contact.phoneNumber,
+      },
+      { name: "email", type: sql.NVARCHAR, value: contact.email },
+      { name: "comments", type: sql.NVARCHAR, value: contact.comments },
     ]);
   } catch (err) {
     throw err;
@@ -336,11 +342,11 @@ export const SendContactForm = async function (contactForm, updateData) {
 
 // Admin receive contact form from student function
 export const ReceiveContactForm = async function () {
-  const query = `
-    SELECT * FROM ContactForm
+  try {
+    const query = `
+    SELECT * FROM Contact
     `;
 
-  try {
     return await executeQuery(query);
   } catch (err) {
     throw err;
