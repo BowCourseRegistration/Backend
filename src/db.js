@@ -36,6 +36,44 @@ const executeQuery = async (query, params) => {
   }
 };
 
+// Get Admin by id
+export const GetAdminById = async function (id) {
+  try {
+    const query = `
+    SELECT * FROM Admin
+    WHERE id = @id
+    `;
+
+    const admin = await executeQuery(query, [
+      { name: "id", type: sql.Int, value: id },
+    ]);
+
+    return admin;
+  } catch (err) {
+    console.error("Error Admin Login", err);
+    throw err;
+  }
+};
+
+// Get Admin by id
+export const GetAdminByUsername = async function (username) {
+  try {
+    const query = `
+    SELECT * FROM Admin
+    WHERE username = @username
+    `;
+
+    const admin = await executeQuery(query, [
+      { name: "username", type: sql.NVarChar, value: username },
+    ]);
+
+    return admin;
+  } catch (err) {
+    console.error("Error Admin Login", err);
+    throw err;
+  }
+};
+
 // Admin Login function
 export const AdminLogin = async function (admin) {
   const { username, password } = admin;
@@ -51,8 +89,8 @@ export const AdminLogin = async function (admin) {
       { name: "password", type: sql.NVarChar, value: password },
     ]);
     console.log(result);
-
-    return { message: "success", role: "admin" };
+    return result;
+    /* return { message: "success", role: "admin" }; */
   } catch (err) {
     console.error("Error Admin Login", err);
     throw err;

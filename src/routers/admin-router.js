@@ -1,4 +1,5 @@
 import express from "express";
+import passport from "passport";
 import {
   AdminLogin,
   AddCourse,
@@ -11,7 +12,7 @@ import {
 
 const router = express.Router();
 // Admin login route
-router.post("/login", async (req, res) => {
+/* router.post("/login", async (req, res) => {
   const admin = req.body;
   try {
     const result = await AdminLogin(admin);
@@ -24,7 +25,37 @@ router.post("/login", async (req, res) => {
     console.error("Error during admin login:", error);
     res.status(500).send("Admin Login Failed");
   }
-});
+}); */
+router.post(
+  "/login",
+  passport.authenticate("admin", {
+    successRedirect: "/admin/",
+    failureRedirect: "/",
+    failureFlash: true,
+  })
+);
+/* router.post("/login", async (req, res, next) => {
+  passport.authenticate("admin", async (err, user, info) => {
+    try {
+      if (err) {
+        throw err;
+      }
+
+      if (!user) {
+        // Custom handling for failed authentication
+        return res.status(401).json({ message: "Authentication failed" });
+      }
+
+      // If authentication is successful, you can perform additional actions
+      // For example, you might want to generate a token, set cookies, etc.
+      console.log("user: ", user);
+      return res.json({ message: "Authentication successful", user });
+    } catch (error) {
+      console.error("Error during admin login:", error);
+      res.status(500).json({ message: "Admin Login Failed" });
+    }
+  })(req, res, next);
+}); */
 
 // Add course route
 router.post("/addcourse", async (req, res) => {
