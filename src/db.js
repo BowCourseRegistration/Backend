@@ -1,10 +1,9 @@
 import sql from "mssql";
 import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
 
 export const config = {
   server: "localhost",
-  port: 57000,
+  port: 5070,
   user: "user",
   password: "user",
   database: "BowCourseRegistration",
@@ -35,6 +34,9 @@ const executeQuery = async (query, params) => {
     await sql.close();
   }
 };
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////ADMIN SECTION/////////////////////////////////////////////////////////////
 
 // Admin Login function
 export const AdminLogin = async function (admin) {
@@ -154,14 +156,14 @@ export const UpdateCourseBycourseCode = async function (
 
   try {
     await executeQuery(query, [
-      { name: "courseCode", type: sql.NVarChar, value: updateData.courseCode },
-      { name: "courseName", type: sql.NVarChar, value: updateData.courseName },
+      { name: "courseCode", type: sql.NVARCHAR, value: updateData.courseCode },
+      { name: "courseName", type: sql.NVARCHAR, value: updateData.courseName },
       { name: "startingDate", type: sql.Date, value: updateData.startingDate },
       { name: "endingDate", type: sql.Date, value: updateData.endingDate },
       { name: "fees", type: sql.Decimal, value: updateData.fees },
       {
         name: "description",
-        type: sql.NVarChar,
+        type: sql.NVARCHAR,
         value: updateData.description,
       },
       { name: "termID", type: sql.Int, value: updateData.termID },
@@ -171,7 +173,8 @@ export const UpdateCourseBycourseCode = async function (
   }
 };
 
-// STUDENT SECTION
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////STUDENT SECTION///////////////////////////////////////////////////////////
 //
 
 // Student Signup function
@@ -258,7 +261,7 @@ export const SearchAvailableCourses = async function (keyword) {
 
   try {
     return await executeQuery(query, [
-      { name: "keyword", type: sql.NVarChar, value: keyword },
+      { name: "keyword", type: sql.NVARCHAR, value: keyword },
     ]);
   } catch (err) {
     throw err;
@@ -279,7 +282,7 @@ export const SendContactForm = async function (contactForm, updateData) {
     await executeQuery(query, [
       { name: "formID", type: sql.INT, value: contactForm.formID },
       { name: "studentID", type: sql.INT, value: contactForm.studentID },
-      { name: "message", type: sql.NVarChar, value: contactForm.message },
+      { name: "message", type: sql.NVARCHAR, value: contactForm.message },
     ]);
   } catch (err) {
     throw err;
