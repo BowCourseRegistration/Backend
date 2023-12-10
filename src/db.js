@@ -252,37 +252,21 @@ export const Signup = async function (newStudent) {
 };
 
 // Student Login function
-
-export const StudentLogin = async function (student) {
+export const GetStudentByUsername = async function (username) {
   try {
-    await sql.connect(config);
     const query = `
-        SELECT * FROM Student
-        WHERE username = @username
+    SELECT * FROM student
+    WHERE username = @username
     `;
 
-    const request = new sql.Request();
-    request.input("username", sql.NVarChar, student.username);
-    const result = await request.query(query);
+    const student = await executeQuery(query, [
+      { name: "username", type: sql.NVarChar, value: username },
+    ]);
 
-    if (result.recordset.length > 0) {
-      const match = await bcrypt.compare(
-        student.password,
-        result.recordset[0].password
-      );
-      if (match) {
-        return { message: true, role: "student" };
-      } else {
-        throw new Error("Invalid credentials");
-      }
-    } else {
-      throw new Error("Invalid credentials");
-    }
+    return student;
   } catch (err) {
-    console.error("Error during student login:", err);
+    console.error("Error student Login", err);
     throw err;
-  } finally {
-    await sql.close();
   }
 };
 

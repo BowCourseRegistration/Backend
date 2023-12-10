@@ -1,7 +1,7 @@
 import express from "express";
+import passport from "passport";
 import {
   Signup as StudentSignup,
-  StudentLogin,
   SearchAvailableCourses,
   SendContactForm,
 } from "../db.js";
@@ -21,21 +21,14 @@ router.post("/signup", async (req, res) => {
 });
 
 // Student login route
-router.post("/login", async (req, res) => {
-  const student = req.body;
-  try {
-    const result = await StudentLogin(student);
-    console.log(result);
-    if (result.message) {
-      res.send(result);
-    } else {
-      throw new Error();
-    }
-  } catch (error) {
-    console.error("Error during student login:", error);
-    res.status(500).send("Student Login Failed");
-  }
-});
+router.post(
+  "/login",
+  passport.authenticate("student", {
+    successRedirect: "/student/",
+    failureRedirect: "/",
+    failureFlash: true,
+  })
+);
 
 // Search available courses for students route
 

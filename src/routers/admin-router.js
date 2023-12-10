@@ -40,7 +40,7 @@ router.post(
       if (err) {
         throw err;
       }
-
+      console.log(user);
       if (!user) {
         // Custom handling for failed authentication
         return res.status(401).json({ message: "Authentication failed" });

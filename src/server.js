@@ -7,7 +7,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import adminRouter from "./routers/admin-router.js";
 import studentRouter from "./routers/student-router.js";
-import { AdminLogin, GetAdminByUsername } from "./db.js";
+import { AdminLogin, GetAdminByUsername, GetStudentByUsername } from "./db.js";
 
 const { json, urlencoded } = bodyParser;
 const app = express();
@@ -34,6 +34,9 @@ passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
       const userInfo = await GetAdminByUsername(username);
+      if (!userInfo[0].adminID) {
+        return done(null, false, { message: "Incorrect role" });
+      }
 
       if (!userInfo || !userInfo.recordset) {
         return done(null, false, { message: "Incorrect username or password" });
@@ -55,7 +58,39 @@ passport.use(
     }
   })
 );
+passport.use(
+  "student",
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const userInfo = await GetStudentByUsername(username);
+      if (!userInfo[0].studentID) {
+        return done(null, false, { message: "Incorrect role" });
+      }
 
+      if (!userInfo || !userInfo.recordset) {
+        return done(null, false, { message: "Incorrect username or password" });
+      }
+
+      if (userInfo.recordset.length === 0) {
+        return done(null, false, { message: "Incorrect username or password" });
+      }
+
+      const student = userInfo.recordset[0];
+      const match = await bcrypt.compare(
+        student.password,
+        result.recordset[0].password
+      );
+
+      if (!match) {
+        return done(null, false, { message: "Incorrect username or password" });
+      }
+
+      return done(null, student);
+    } catch (error) {
+      return done(error);
+    }
+  })
+);
 passport.serializeUser((user, done) => {
   done(null, user.id); // Assuming user has an 'id' property
 });
