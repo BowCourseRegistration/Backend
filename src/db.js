@@ -308,23 +308,50 @@ export const SearchAvailableCourses2 = async function (termID) {
 };
 
 // Student Select Course function//
-export const SelectCourse = async function (course) {
-  try {
-    await sql.connect(config);
+
+// Fetch all terms from the database
+export const FetchTerms = async function () {
+  const query = `
+    SELECT * FROM Term
+    `;
+    try {
+        return await executeQuery(query);
+        } catch (err) {
+        throw err;
+        }  finally {
+        await sql.close();
+        }
+};
+
+// Fetch all courses from the database for a specific term
+export const FetchCoursesByTerm = async function (termID) {
     const query = `
-    INSERT INTO Registration (studentID, courseCode, termID)
-    VALUES (@studentID, @courseCode, @termID)
+        SELECT * FROM Course
+        WHERE termID = @termID
+        `;
+        try {
+            return await executeQuery(query, [
+                { name: "termID", type: sql.INT, value: termID },
+                ]);
+            } catch (err) {
+            throw err;
+            }  finally {
+            await sql.close();
+            }
+    };
+// Student register course function
+export const RegisterCourse = async function (courseCode, termID) {
+  const query = `
+    INSERT INTO Registration (courseCode, termID)
+    VALUES (@courseCode, @termID)
     `;
 
-    const request = new sql.Request();
-    request.input("studentID", sql.INT, course.studentID);
-    request.input("courseCode", sql.NVarChar, course.courseCode);
-
-    await request.query(query);
-
-    return { message: "Course selected successfully" };
+  try {
+    await executeQuery(query, [,
+      { name: "courseCode", type: sql.NVarChar, value: courseCode },
+        { name: "termID", type: sql.Int, value: termID },
+    ]);
   } catch (err) {
-    console.error("Error selecting course:", err);
     throw err;
   } finally {
     await sql.close();

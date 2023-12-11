@@ -4,7 +4,8 @@ import {
   Signup as StudentSignup,
   SearchAvailableCourses,
   SearchAvailableCourses2,
-  SendContactForm,
+  SendContactForm, FetchTerms, FetchCoursesByTerm,
+  RegisterCourse,
 } from "../db.js";
 
 const router = express.Router();
@@ -56,15 +57,38 @@ router.get("/coursesbyterm/", async (req, res) => {
 });
 
 // Student select course route
-router.post("/selectcourse", async (req, res) => {
-  const newCourse = req.body;
-  console.log(newCourse);
+// search all terms route
+router.get("/searchterms", async (req, res) => {
   try {
-    await SelectCourse(newCourse);
-    res.send("Course selected");
+    const terms = await FetchTerms();
+    res.json({ results: terms });
   } catch (error) {
-    console.error("Error during course selection:", error);
-    res.status(500).send("Course selection failed");
+    console.error("Error during course search:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//Search all courses for a specific term
+router.get("/coursesbyterm/:termID", async (req, res) => {
+  try {
+    const termID = req.params.termID;
+    const courses = await FetchCoursesByTerm(termID);
+    res.json({ results: courses });
+  } catch (error) {
+    console.error("Error during course search:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Student register course route
+router.post("/registercourse", async (req, res) => {
+  const newCourse = req.body;
+  try {
+    await RegisterCourse(newCourse);
+    res.send("Registered a course");
+  } catch (error) {
+    console.error("Error during course registration:", error);
+    res.status(500).send("Failed to register course");
   }
 });
 
