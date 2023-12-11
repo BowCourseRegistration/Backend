@@ -3,6 +3,7 @@ import passport from "passport";
 import {
   Signup as StudentSignup,
   SearchAvailableCourses,
+  SearchAvailableCourses2,
   SendContactForm,
 } from "../db.js";
 
@@ -36,6 +37,17 @@ router.get("/searchcourses/:keyword", async (req, res) => {
   try {
     const keyword = req.params.keyword;
     const searchResults = await SearchAvailableCourses(keyword);
+    res.json({ results: searchResults });
+  } catch (error) {
+    console.error("Error during course search:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/coursesbyterm/", async (req, res) => {
+  try {
+    const termID = req.query.termID;
+    const searchResults = await SearchAvailableCourses2(termID);
     res.json({ results: searchResults });
   } catch (error) {
     console.error("Error during course search:", error);

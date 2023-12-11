@@ -289,6 +289,24 @@ export const SearchAvailableCourses = async function (keyword) {
   }
 };
 
+export const SearchAvailableCourses2 = async function (termID) {
+  console.log("termID : ", termID);
+  const query = `
+    SELECT * FROM Course
+    WHERE termID = @termID
+    `;
+
+  try {
+    return await executeQuery(query, [
+      { name: "termID", type: sql.INT, value: termID },
+    ]);
+  } catch (err) {
+    throw err;
+  } finally {
+    await sql.close();
+  }
+};
+
 // Student Select Course function//
 export const SelectCourse = async function (course) {
   try {
